@@ -26,8 +26,8 @@ def load_abi(path):
 voting_id_abi = load_abi("DocumentContract_abi.json")
 voting_abi    = load_abi("VotingContract_abi.json")
 
-VOTING_ID_ADDR = "0x7E29e1386d75b96EBc999D3c2b2bA12d83dd2155"
-VOTING_ADDR    = "0x77930034e047cCd0fBFB1e8e0c774d219d1BE57D"
+VOTING_ID_ADDR = "DocumentContractAddressHere"
+VOTING_ADDR    = "VotingContractAddress"
 
 voting_id = w3.eth.contract(address=VOTING_ID_ADDR, abi=voting_id_abi)
 voting    = w3.eth.contract(address=VOTING_ADDR,    abi=voting_abi)
