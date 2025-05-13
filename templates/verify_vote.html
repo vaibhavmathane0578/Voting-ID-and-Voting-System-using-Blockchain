@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Verify Voter ID</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <h1>Verify Voter ID</h1>
+    <p>Enter your Voter ID or scan the QR code to verify the authenticity of your ID on the blockchain.</p>
+
+    <form method="POST" class="verify-form">
+      <label for="voterId">Voter ID</label>
+      <input type="text" id="voterId" name="voterId" placeholder="Enter your Voter ID" required />
+
+      <p style="text-align:center; font-weight:bold;">— OR —</p>
+
+      <div class="qr-section">
+        <label>Scan QR Code</label>
+        <div id="reader" width="300px"></div>
+      </div>
+
+      <button type="submit" class="btn">Verify ID</button>
+    </form>
+
+    <div class="evm-footer" style="margin-top: 30px;">
+      <a href="{{ url_for('home') }}">← Back to Home</a>
+    </div>
+  </div>
+
+  <!-- QR Scanner Script (if used) -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <script>
+    const qrScanner = new Html5QrcodeScanner("reader", {
+      fps: 10,
+      qrbox: 250
+    });
+
+    qrScanner.render((decodedText, decodedResult) => {
+      document.getElementById("voterId").value = decodedText;
+      qrScanner.clear();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cast Your Vote</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="evm-container">
+    <header class="evm-header">
+      <h1>Blockchain Voting System</h1>
+      <h2>Cast Your Vote</h2>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+        {% for category, msg in messages %}
+          <div class="message {{ category }}">{{ msg }}</div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('submit_vote') }}" id="vote-form">
+      <div class="evm-balloting-unit">
+        {% for p in proposals %}
+        <div class="candidate-row" data-id="{{ p.index }}" data-proposal-name="{{ p.name }}">
+          <div class="candidate-info">
+            <div class="candidate-number">{{ loop.index }}.</div>
+            <div class="candidate-name">{{ p.name }}</div>
+          </div>
+          <div class="vote-controls">
+            <div class="indicator-light"></div>
+            <button type="button" class="vote-button">Vote</button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <input type="hidden" name="voterId" value="{{ voterId }}">
+      <input type="hidden" name="proposal" id="selected_proposal">
+
+      <div class="user-info-section">
+        <h3>Your Voter Credentials</h3>
+        <label for="address">Wallet Address</label>
+        <input type="text" id="address" name="address" placeholder="0x..." required />
+
+        <label for="private_key">Private Key</label>
+        <input type="password" id="private_key" name="private_key" required />
+
+        <button type="submit" id="submit-vote-btn" class="submit-btn" disabled>
+          Submit Vote
+        </button>
+
+        <div id="confirmation-message" class="message-area">
+          Select a candidate, then fill your credentials to vote.
+        </div>
+      </div>
+    </form>
+
+    <footer class="evm-footer">
+      <a href="{{ url_for('home') }}">← Back to Home</a>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='script_evm.js') }}"></script>
+</body>
+</html>

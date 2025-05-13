@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify Voter ID</title>
+  <link rel="stylesheet" href="static/style.css" />
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script>
+    function startQRScan() {
+      const qrScanner = new Html5Qrcode("reader");
+      qrScanner.start(
+        { facingMode: "environment" },
+        {
+          fps: 10,
+          qrbox: 250
+        },
+        qrCodeMessage => {
+          window.location.href = `/verify?voterId=${qrCodeMessage}`;
+          qrScanner.stop();
+        },
+        errorMessage => {
+          console.warn(errorMessage);
+        }
+      );
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Verify Voter ID</h1>
+    <p>Enter Voter ID, Wallet Address, or Scan QR Code to verify details.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert {{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/verify">
+      <label for="voterId">Voter ID</label>
+      <input type="text" name="voterId" placeholder="Enter Voter ID" />
+
+      <label for="wallet">Wallet Address</label>
+      <input type="text" name="wallet" placeholder="Enter Wallet Address" />
+
+      <button type="submit" class="btn">Verify</button>
+    </form>
+
+    <div class="qr-section">
+      <h2>Scan QR Code</h2>
+      <div id="reader" style="width: 300px;"></div>
+      <button onclick="startQRScan()" class="btn">Start QR Scan</button>
+    </div>
+  </div>
+</body>
+</html>

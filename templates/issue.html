@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Issue Voter ID</title>
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Issue Your Voter ID</h1>
+    <p>Fill in your details to issue a blockchain-based voter ID.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="alert {{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if issued %}
+      <h2>Voter ID Issued Successfully!</h2>
+      <p><strong>Voter ID:</strong> {{ voterId }}</p>
+      <img src="data:image/png;base64,{{ qr_data }}" alt="QR Code" />
+      <p>Scan this code to verify your Voter ID.</p>
+      <a href="/verify" class="btn">Go to Verification</a>
+    {% else %}
+      <form method="POST">
+        <label for="name">Full Name</label>
+        <input type="text" name="name" required />
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" name="dob" required />
+
+        <label for="voterId">Custom Voter ID</label>
+        <input type="text" name="voterId" required />
+
+        <label for="wallet">Wallet Address</label>
+        <input type="text" name="wallet" required />
+
+        <label for="private_key">Private Key</label>
+        <input type="password" name="private_key" required />
+
+        <button type="submit" class="btn">Issue ID</button>
+      </form>
+    {% endif %}
+  </div>
+</body>
+</html>

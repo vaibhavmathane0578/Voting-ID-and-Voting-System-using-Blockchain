@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voter ID Verification</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Voter ID Verification</h2>
+        <p><strong>Name:</strong> {{ name }}</p>
+        <p><strong>Date of Birth:</strong> {{ dob }}</p>
+        <p><strong>Voter ID:</strong> {{ voterId }}</p>
+        <p><strong>Status:</strong>
+            {% if isValid %}
+                ✅ <strong>Valid</strong>
+            {% else %}
+                ❌ <strong>Revoked</strong>
+            {% endif %}
+        </p>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>
